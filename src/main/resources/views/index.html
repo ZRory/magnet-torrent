@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>磁力转种子</title>
+<link rel="stylesheet" href="./css/layui.css" media="all">
+<style>
+
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#main {
+	width: 80%;
+	text-align: center;
+	margin: 0 auto;
+	position: relative; /*脱离文档流*/
+	top: 30%; /*偏移*/
+}
+
+#searchMagnet {
+	width: 90%
+}
+</style>
+<script src="https://cdn.bootcss.com/jquery/2.2.2/jquery.min.js"></script>
+<script src="./layui.js"></script>
+<script>
+	//注意进度条依赖 element 模块，否则无法进行正常渲染和功能性操作
+	layui.use('element', function() {
+		var element = layui.element;
+	});
+
+	$(function() {
+		$("#startEx").click(function() {
+			$.post("/magnet/torrentPre", {
+				magnet : $("#magnet").val()
+			}, function(data) {
+				if (data.success) {
+					var url = "/magnet/torrent";
+			        var form = $("<form></form>").attr("action", url).attr("method", "post");
+			        form.append($("<input></input>").attr("type", "hidden").attr("name", "magnet").attr("value", $("#magnet").val()));
+			        form.appendTo('body').submit().remove();
+				} else {
+					layer.msg('种子获取超时，请检查磁链是否正确后重试。');
+				}
+			}).error(function(data) {
+				layer.msg('种子获取超时，请检查磁链是否正确后重试。');
+			})
+			return false;
+		});
+	});
+</script>
+</head>
+<body>
+	<div id="main">
+		<img alt="" src="./images/logo.png" id="logo"> <br /> <br /> <br />
+		<br />
+		<form class="layui-form layui-form-pane" action="">
+			<div class="layui-inline" id="searchMagnet">
+				<input id="magnet" type="text" placeholder="请输入磁力链接"
+					autocomplete="off" class="layui-input"></input>
+			</div>
+			<button class="layui-btn layui-btn-normal" id="startEx">开始转换</button>
+		</form>
+		<br /> <br />
+		<!-- <div class="layui-progress" lay-showPercent="yes">
+			<div class="layui-progress-bar" lay-percent="0%"></div>
+		</div> -->
+	</div>
+</body>
+</html>

@@ -101,4 +101,8 @@ public class BizBaseResponse implements Serializable {
         return new BizBaseResponse(BizErrorCodeEnum.OPERATION_FAILED, message, data);
     }
 
+    public static BizBaseResponse systemError() {
+        return new BizBaseResponse(BizErrorCodeEnum.SYSTEM_ERROR, BizErrorCodeEnum.SYSTEM_ERROR.getDesc(), null);
+    }
+
 }

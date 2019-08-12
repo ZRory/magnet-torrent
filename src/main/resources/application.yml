@@ -1,2 +1,7 @@
 server:
   port: 6677
+spring:
+  application:
+    name: magnet-torrent
+  resources:
+    static-locations: classpath:/static/,classpath:/views/

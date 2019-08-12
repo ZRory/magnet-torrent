@@ -25,7 +25,7 @@ public class MagnetService {
         if (!magnet.matches(appConfig.magnetRegular)) {
             throw new BizException(BizErrorCodeEnum.MAGNET_ILLEGAL);
         }
-        magnet = magnet.replace("magnet:\\?xt=urn:btih:", "");
+        magnet = magnet.replace("magnet:?xt=urn:btih:", "");
         String magnetFileName = magnet + ".torrent";
         //判断文件是否存在
         File file = new File(appConfig.torrentDir + magnetFileName);

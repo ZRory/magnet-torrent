@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
 
-    public String  magnetRegular      = "^(magnet:/?xt=urn:btih:|)[0-9a-fA-F]{40}$";
+    public String  magnetRegular      = "^(magnet:\\?xt=urn:btih:|)[0-9a-fA-F]{40}$";
 
     public String  torrentDir         = "/torrentRepository/";
 
