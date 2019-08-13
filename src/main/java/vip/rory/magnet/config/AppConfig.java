@@ -11,6 +11,8 @@ public class AppConfig {
 
     public String  magnetRegular      = "^(magnet:\\?xt=urn:btih:|)[0-9a-fA-F]{40}$";
 
+    public String  magnetHeader       = "magnet:?xt=urn:btih:";
+
     public String  torrentDir         = "/torrentRepository/";
 
     public Integer downCheckTimes     = 10;
