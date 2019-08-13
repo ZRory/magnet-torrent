@@ -7,3 +7,5 @@
 
 
 测试地址：www.ruanchuang.vip
+
+如果觉得转换率低或者效率低可以将magnetEx 更换为迅雷X 并更改thunderTorrentPath路径
