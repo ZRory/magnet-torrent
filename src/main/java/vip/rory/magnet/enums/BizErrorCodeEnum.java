@@ -15,6 +15,8 @@ public enum BizErrorCodeEnum implements BizEnum {
     MAGNET_ILLEGAL(20001, "MAGNET_ILLEGAL", "磁力链接非法"),
     MAGNET_DOWNLOAD_TIMEOUT(20002, "MAGNET_DOWNLOAD_TIMEOUT", "磁力链接获取种子超时"),
 
+    TORRENT_FILE_ILLEGAL(30001, "TORRENT_FILE_ILLEGAL", "种子文件格式不正确"),
+
     SYSTEM_ERROR(50000, "SYSTEM_ERROR", "系统错误"),
 
     End(99999, "End", "不需要执行"),;
