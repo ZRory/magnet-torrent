@@ -45,6 +45,11 @@ html, body {
 	$(function() {
 		$("#startExTorrent").click(
 				function() {
+					//按钮置灰
+					$("#startExTorrent").removeAttr("class");
+					$("#startExTorrent").attr("class",
+							"layui-btn layui-btn-disabled");
+					$("#startExTorrent").text("转换中...");
 					$.post(
 							"/magnet/torrentPre",
 							{
@@ -64,9 +69,18 @@ html, body {
 								} else {
 									layer.msg(data.message);
 								}
-							}).error(function(data) {
-						layer.msg('种子获取超时，请检查磁链是否正确后重试。');
-					})
+								$("#startExTorrent").removeAttr("class");
+								$("#startExTorrent").attr("class",
+										"layui-btn layui-btn-normal");
+								$("#startExTorrent").text("开始转换");
+							}).error(
+							function(data) {
+								layer.msg('种子获取超时，请检查磁链是否正确后重试。');
+								$("#startExTorrent").removeAttr("class");
+								$("#startExTorrent").attr("class",
+										"layui-btn layui-btn-normal");
+								$("#startExTorrent").text("开始转换");
+							})
 					return false;
 				});
 
@@ -103,7 +117,7 @@ html, body {
 			<button class="layui-btn layui-btn-normal" id="startExTorrent">开始转换</button>
 		</form>
 		<br />
-		<hr class="layui-bg-blue" />
+		<hr />
 		<br />
 		<form id="exTorrentForm" class="layui-form layui-form-pane" action=""
 			enctype="multipart/form-data">
@@ -114,7 +128,8 @@ html, body {
 			<button class="layui-btn" id="startExMagnet">开始转换</button>
 		</form>
 		<br />
-		<blockquote class="layui-elem-quote" id="magnetShow"></blockquote>
+		<blockquote id="magnetShow" class="layui-elem-quote layui-quote-nm">
+		</blockquote>
 	</div>
 </body>
 </html>
