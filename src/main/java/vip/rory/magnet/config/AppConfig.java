@@ -17,8 +17,10 @@ public class AppConfig {
 
     public Integer downCheckTimes     = 10;
 
-    public String  thunderProgramPath = "./MagnetEx/MagnetEx.exe";
+    //public String  thunderProgramPath = "./MagnetEx/MagnetEx.exe";
+    public String  thunderProgramPath = "C:/DHT_RUN/Thunder/Program/Thunder.exe";
 
-    public String  thunderTorrentPath = System.getProperty("user.home") + "/AppData/Local/Temp/magnetex/";
+    //public String  thunderTorrentPath = System.getProperty("user.home") + "/AppData/Local/Temp/magnetex/";
+    public String  thunderTorrentPath = System.getProperty("user.home") + "/AppData/Local/Temp/2/Thunder Network/ThunderVIP/";
 
 }

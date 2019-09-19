@@ -1,5 +1,5 @@
 server:
-  port: 6677
+  port: 80
 spring:
   application:
     name: magnet-torrent
