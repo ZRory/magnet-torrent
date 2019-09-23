@@ -1,9 +1,11 @@
 package vip.rory.magnet.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,7 +33,12 @@ public class TorrentService {
         }
         Map<String, BEncodedValue> infoMap = BDecoder.decode(torrentFile.getInputStream()).getMap().get("info")
                 .getMap();
-        return appConfig.magnetHeader + DigestUtils.sha1Hex(BEncoder.encode(infoMap).array()).toUpperCase();
+        String hash = DigestUtils.sha1Hex(BEncoder.encode(infoMap).array()).toUpperCase();
+        File file = new File(appConfig.torrentDir + hash + ".torrent");
+        if (!file.exists()) {
+            FileUtils.copyInputStreamToFile(torrentFile.getInputStream(), file);
+        }
+        return appConfig.magnetHeader + hash;
     }
 
 }
