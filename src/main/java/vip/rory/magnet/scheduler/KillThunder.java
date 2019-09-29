@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @EnableScheduling
 public class KillThunder {
 
-    @Scheduled(fixedDelay = 60000) //上一次执行完毕时间点之后60秒再执行
+    @Scheduled(fixedDelay = 600000) //上一次执行完毕时间点之后60秒再执行
     public void killThunder() throws IOException {
         System.out.println("Kill Thunder进程");
         Runtime.getRuntime().exec("TASKKILL /IM DownloadSDKServer.exe /F");

@@ -1,57 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh_cn">
 <head>
 <meta charset="UTF-8">
-<title>磁力链接转种子 | 种子转磁力链接</title>
-<meta name="title" content="磁力链接转种子 | 种子转磁力链接">
-<meta name="keywords" content="磁力,种子，磁力转种子、种子转磁力">
-<meta name="description" content="磁力链接转种子 | 种子转磁力链接">
-<link rel="stylesheet" href="./css/layui.css" media="all">
-<style>
-html, body {
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	padding: 0;
-}
-
-#main {
-	width: 80%;
-	text-align: center;
-	margin: 0 auto;
-	position: relative; /*脱离文档流*/
-	top: 20%; /*偏移*/
-}
-
-#exMagnet {
-	max-width: 90%;
-	min-width: 80%;
-}
-
-#exTorrent {
-	max-width: 90%;
-	min-width: 80%;
-}
-
-#startEx {
-	max-width: 20%;
-	min-width: 8%;
-}
-</style>
-<script src="https://cdn.bootcss.com/jquery/2.2.2/jquery.min.js"></script>
-<script src="./layui.js"></script>
+<title>磁力转转-磁力链接种子在线转换</title>
+<link rel="stylesheet" href="./css/Index.css">
+<meta name=”description” content="在线磁力链接转种子|种子转磁力链接">
 <script>
-	layui.use('layer', function() { //独立版的layer无需执行这一句
-		var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
-	});
-
+	var _hmt = _hmt || [];
+	(function() {
+		var hm = document.createElement("script");
+		hm.src = "https://hm.baidu.com/hm.js?d1c96f85944ad357a82f37385df31248";
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+<script>
+	var _hmt = _hmt || [];
+	(function() {
+		var hm = document.createElement("script");
+		hm.src = "https://hm.baidu.com/hm.js?7d712f6445a90c226f7c1147f6e807d5";
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+<script src="https://cdn.bootcss.com/jquery/2.2.2/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="https://www.huangwx.cn/css/sweetalert.css">
+<script type="text/javascript"
+	src="https://www.huangwx.cn/js/sweetalert-dev.js"></script>
+<script>
 	$(function() {
+
 		$("#startExTorrent").click(
 				function() {
+					if($("#magnet").val().length == 0){
+						swal("转换失败", "请输入磁力链接", "error");
+						return;
+					}
 					//按钮置灰
 					$("#startExTorrent").removeAttr("class");
-					$("#startExTorrent").attr("class",
-							"layui-btn layui-btn-disabled");
+					$("#startExTorrent").attr("disabled", "disabled");
 					$("#startExTorrent").text("转换中...");
 					$.post(
 							"/magnet/torrentPre",
@@ -60,6 +48,8 @@ html, body {
 							},
 							function(data) {
 								if (data.success) {
+									swal("转换成功,即将自动开始下载", data.message,
+											"success")
 									var url = "/magnet/torrent";
 									var form = $("<form></form>").attr(
 											"action", url).attr("method",
@@ -70,24 +60,19 @@ html, body {
 											$("#magnet").val()));
 									form.appendTo('body').submit().remove();
 								} else {
-									layer.msg(data.message);
+									swal("转换失败", data.message, "error");
 								}
-								$("#startExTorrent").removeAttr("class");
-								$("#startExTorrent").attr("class",
-										"layui-btn layui-btn-normal");
-								$("#startExTorrent").text("开始转换");
-							}).error(
-							function(data) {
-								layer.msg('种子获取超时，请检查磁链是否正确后重试。');
-								$("#startExTorrent").removeAttr("class");
-								$("#startExTorrent").attr("class",
-										"layui-btn layui-btn-normal");
-								$("#startExTorrent").text("开始转换");
-							})
+								$("#startExTorrent").removeAttr("disabled");
+								$("#startExTorrent").text("磁力转种子");
+							}).error(function(data) {
+						swal("转换失败", "种子获取超时，请重试一次。", "error");
+						$("#startExTorrent").removeAttr("disabled");
+						$("#startExTorrent").text("磁力转种子");
+					})
 					return false;
 				});
 
-		$("#startExMagnet").click(function() {
+		$("#torrentFile").change(function() {
 			var formData = new FormData($("#exTorrentForm")[0]);
 			$.ajax({
 				url : '/torrent/magnet',
@@ -97,42 +82,79 @@ html, body {
 				processData : false,
 				contentType : false, // 不要设置Content-Type请求头
 				success : function(data) {
-					$('#magnetShow').text(data.data);
+					if (data.code == 10000) {
+						swal({
+							title : "转换成功",
+							text : "<small>" + data.data + "</small>",
+							html : true
+						});
+					} else {
+						swal("转换失败", "请检查种子文件是否正确后重试", "error");
+					}
+
 				},
 				error : function(response) {
-					layer.msg('转换失败，请检查种子文件是否正确后重试。');
+					swal("转换失败", "请检查种子文件是否正确后重试", "error");
 				}
 			});
-			return false;
+			$("#torrentFile").val(null);
 		});
 	});
 </script>
 </head>
 <body>
-	<div id="main">
-		<img alt="" src="./images/logo.png" id="logo"> <br /> <br /> <br />
-		<br />
-		<form class="layui-form layui-form-pane" action="">
-			<div class="layui-inline" id="exMagnet">
-				<input id="magnet" type="text" placeholder="请输入磁力链接"
-					autocomplete="off" class="layui-input"></input>
-			</div>
-			<button class="layui-btn layui-btn-normal" id="startExTorrent">开始转换</button>
-		</form>
-		<br />
-		<hr />
-		<br />
-		<form id="exTorrentForm" class="layui-form layui-form-pane" action=""
-			enctype="multipart/form-data">
-			<div class="layui-inline" id="exTorrent">
-				<input id="torrentFile" type="file" name="torrentFile"
-					class="layui-input"></input>
-			</div>
-			<button class="layui-btn" id="startExMagnet">开始转换</button>
-		</form>
-		<br />
-		<blockquote id="magnetShow" class="layui-elem-quote layui-quote-nm">
-		</blockquote>
+	<h1 style="display: none;" >在线磁力链接种子转换,磁力转转,磁力第一门户网</h1>
+	<h2 style="display: none;" >在线磁力链接转种子</h2>
+	<h3 style="display: none;" >在线种子转磁力链接</h3>
+	<h4 style="display: none;" >MAGNET->TORRENT</h4>
+
+	<!---------------------------------------------------------------------------------------------------->
+
+	<div id="logo">
+		<img src="./images/logo.png">
 	</div>
+
+	<form id="exTorrentForm" enctype="multipart/form-data">
+		<input id="torrentFile" name="torrentFile" type="file"
+			style="display: none;" />
+	</form>
+	<!---------------------------------------------------------------------------------------------------->
+	<div id="search-bar">
+		<input id="magnet" type="text" placeholder="请输入磁力链接"
+			autocomplete="off">
+		<button id="startExTorrent" style="margin-left: 185px;">磁力转种子</button>
+		<button onclick="torrentFile.click()">种子转磁力</button>
+	</div>
+
+	<!---------------------------------------------------------------------------------------------------->
+	<div id="nav-panel">
+
+		<a class="nav-panel-item" title="聚合磁力搜索" href="https://biedian.me/"
+			target="_blank"> <img src="./images/web_icons/biedian.ico"
+			alt="Google" height="16" width="16" class="nav-panel-item-img">
+			<div class="nav-panel-item-txt">磁力聚合搜索</div>
+		</a> <a class="nav-panel-item" title="磁力链接在线播放"
+			href="https://magnet.nange.cn/" target="_blank"> <img
+			src="./images/web_icons/magnetCloud.png" alt="Wikipedia" height="16"
+			width="16" class="nav-panel-item-img">
+			<div class="nav-panel-item-txt">磁力云播</div>
+		</a> <a class="nav-panel-item" title="百度搜索" href="https://www.baidu.com/"
+			target="_blank"> <img src="./images/web_icons/Baidu.png"
+			alt="Baidu" height="16" width="16" class="nav-panel-item-img">
+			<div class="nav-panel-item-txt">百度搜索</div>
+		</a> <a class="nav-panel-item" title="Dictionary"
+			href="http://dict.youdao.com/" target="_blank"> <img
+			src="./images/web_icons/Dictionary.png" alt="Dictionary" height="16"
+			width="16" class="nav-panel-item-img">
+			<div class="nav-panel-item-txt">有道翻译</div>
+		</a> <a class="nav-panel-item" title="电影猫-在线电影"
+			href="http://www.mvcat.com/" target="_blank"> <img
+			src="./images/web_icons/mvcat.png" alt="Blog" height="16" width="16"
+			class="nav-panel-item-img">
+			<div class="nav-panel-item-txt">电影猫-在线电影</div>
+		</a>
+
+	</div>
+
 </body>
 </html>
